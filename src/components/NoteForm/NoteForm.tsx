@@ -6,7 +6,6 @@ import { createNote } from "../../services/noteService";
 
 interface NoteFormProps {
   onClose: () => void;
-  onSuccess: () => void;
 }
 
 interface initialValuesFormProps {
@@ -15,7 +14,7 @@ interface initialValuesFormProps {
   tag: "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
 }
 
-export default function NoteForm({ onClose, onSuccess }: NoteFormProps) {
+export default function NoteForm({ onClose }: NoteFormProps) {
   const NoteFormSchema = Yup.object().shape({
     title: Yup.string()
       .required("Title is required")
@@ -41,7 +40,7 @@ export default function NoteForm({ onClose, onSuccess }: NoteFormProps) {
     mutationFn: createNote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
-      onSuccess();
+      onClose();
     },
   });
   const handleSubmit = (
